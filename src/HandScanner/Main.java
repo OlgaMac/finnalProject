@@ -39,7 +39,6 @@ public class Main {
                 case 3:
                     System.out.println(basket);
                     System.out.print("Enter the vendor cod of article to delete: ");
-                    //basket.searchForDeleteGoodIntoBasket();
                     searchForDeleteGoodIntoBasket(scanner, availableArticles, basket);
                     break;
 
@@ -54,7 +53,6 @@ public class Main {
 
     private static void searchForDeleteGoodIntoBasket(Scanner scanner, HashMap<Integer, Article> availableArticles, Basket basket) {
         Integer cod;
-        boolean added = false;
         cod = scanner.nextInt();
         if (cod < 0) {
             try {
@@ -63,22 +61,17 @@ public class Main {
                 System.out.println("Negative vendor cod entered");
             }
         }
-        for (Integer key : availableArticles.keySet()) {
-            if (key.equals(cod)) {
-                basket.deleteArticle(cod);
-                System.out.println("Article deleted from basket");
-                added = true;
-                break;
-            }
-        }
-        if (!added) {
+        if (availableArticles.containsKey(cod)) {
+            basket.deleteArticle(cod);
+            System.out.println("Article deleted from basket");
+        } else {
             System.out.println("Article not found");
         }
     }
 
+
     private static void addCoodIntoBasket(Scanner scanner, HashMap<Integer, Article> availableArticles, Basket basket) {
         Integer cod = scanner.nextInt();
-        boolean isIt = false;
         if (cod < 0) {
             try {
                 throw new Exception();
@@ -86,15 +79,11 @@ public class Main {
                 System.out.println("Negative vendor cod entered");
             }
         }
-        for (Integer key : availableArticles.keySet()) {
-            if (key.equals(cod)) {
-                basket.addArticle(cod, new Article(availableArticles.get(cod).getName(), availableArticles.get(cod).getPrice()));
-                System.out.println("Article added to basket");
-                isIt = true;
-                break;
-            }
-        }
-        if (!isIt) {
+        if (availableArticles.containsKey(cod)) {
+            basket.addArticle(cod, new Article(availableArticles.get(cod).getName(), availableArticles.get(cod).getPrice()));
+            System.out.println("Article added to basket");
+
+        } else {
             System.out.println("Article not found");
         }
     }
